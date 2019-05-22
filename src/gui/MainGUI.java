@@ -1,6 +1,7 @@
 package gui;
 
 import data.CSVFilter;
+import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,6 +10,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
@@ -19,7 +21,7 @@ import model.PersonTableModel;
  * Haupt-GUI (JFrame).
  * 
  * @author Herbert Seewann
- * @version 5.0
+ * @version 6.0
  */
 public class MainGUI extends javax.swing.JFrame {
     
@@ -227,7 +229,12 @@ public class MainGUI extends javax.swing.JFrame {
         jMenu2.add(miREADME);
         jMenu2.add(jSeparator1);
 
-        miStammbaum.setText("Grafischen \"Stammbaum\" anzeigen");
+        miStammbaum.setText("Grafischen \"Stammbaum\" anzeigen //TODO");
+        miStammbaum.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miStammbaumActionPerformed(evt);
+            }
+        });
         jMenu2.add(miStammbaum);
         jMenu2.add(jSeparator2);
 
@@ -422,6 +429,19 @@ public class MainGUI extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         model.load(path);
     }//GEN-LAST:event_formWindowOpened
+
+    /**
+     * Wird beim Klicken auf das MenuItem Stammbaum anzeigen aufgerufen.
+     * 
+     * @param evt Übergebenes ActionEvent
+     */
+    private void miStammbaumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miStammbaumActionPerformed
+        JDialog g = new JDialog(this, true);
+        g.setTitle("Grafischer Stammbaum");
+        g.setSize(new Dimension(500, 500));
+        g.add(new DrawPanel());
+        g.setVisible(true);
+    }//GEN-LAST:event_miStammbaumActionPerformed
 
     /**
      * @param args the command line arguments
