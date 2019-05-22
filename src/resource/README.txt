@@ -33,6 +33,6 @@
         Per Rechtsklick können entweder ausgewählte Personen gelöscht, oder
         mithilfe eines Dialogs neue Personen hinzugefügt werden.
     3.3) Ändern der Daten
-        Mit einem doppelten Rechtsklick lassen sich Daten aus der Tabelle
+        Mit einem Doppelklick lassen sich Daten aus der Tabelle
         einfach manipulieren.
 ----------------------------------- ENDE -----------------------------------

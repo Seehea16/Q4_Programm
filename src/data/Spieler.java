@@ -1,6 +1,9 @@
 package data;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,7 +11,7 @@ import java.util.List;
  * Datenklasse Spieler.
  * 
  * @author Herbert Seewann
- * @version 4.0
+ * @version 5.0
  */
 public class Spieler extends Person {
     
@@ -17,6 +20,7 @@ public class Spieler extends Person {
     private int trikotNummer;
     private String mannschaft;
     private List<LocalDate> trainings;
+    public static final DateTimeFormatter DTF = DateTimeFormatter.ofPattern("DD.MM.yyyy");
     
     /**
      * Konstruktor für Klasse Spieler.
@@ -37,6 +41,24 @@ public class Spieler extends Person {
         this.setTrikotNummer(trikotNummer);
         this.mannschaft = mannschaft;
         this.trainings = new LinkedList<>();
+    }
+
+    /**
+     * Konstruktor der Klasse Spieler zum Loaden.
+     * 
+     * @param currentLine Aktuelle Zeile, in der der Spieler steht
+     */
+    public Spieler(String currentLine) {
+        super(currentLine.split(";")[0], currentLine.split(";")[1], 
+                Integer.parseInt(currentLine.split(";")[2]));
+        this.setToreSaison(Integer.parseInt(currentLine.split(";")[3]));
+        this.setToreGesamt(Integer.parseInt(currentLine.split(";")[4]));
+        this.setTrikotNummer(Integer.parseInt(currentLine.split(";")[5]));
+        this.mannschaft = currentLine.split(";")[6];
+        this.trainings = new LinkedList<>();
+        for(int i = 7; i < currentLine.split(";").length; i++) {
+            this.trainings.add(LocalDate.parse(currentLine.split(";")[i], DTF));
+        }
     }
 
     /**
@@ -127,5 +149,22 @@ public class Spieler extends Person {
      */
     public void setTrikotNummer(int trikotNummer) {
         this.trikotNummer = trikotNummer;
+    }
+
+    @Override
+    public void writeTo(BufferedWriter writer, boolean newLine) throws IOException {
+        super.writeTo(writer, newLine);
+        writer.write(this.toreSaison+"");
+        writer.write(";");
+        writer.write(this.toreGesamt+"");
+        writer.write(";");
+        writer.write(this.trikotNummer+"");
+        writer.write(";");
+        writer.write(this.mannschaft);
+        writer.write(";");
+        for(LocalDate ld : this.trainings) {
+            writer.write(ld.format(DTF));
+            writer.write(";");
+        }
     }
 }

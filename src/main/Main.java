@@ -6,7 +6,7 @@ import gui.MainGUI;
  * Main-Klasse zum Starten des Programms.
  * 
  * @author Herbert Seewann
- * @version 3.0
+ * @version 5.0
  */
 public class Main {
     
@@ -16,6 +16,6 @@ public class Main {
      * @param args Übergebene Argumente
      */
     public static void main(String[] args) {
-        new MainGUI().setVisible(true);
+        MainGUI.main(args);
     }
 }
