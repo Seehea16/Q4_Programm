@@ -28,6 +28,7 @@ public class MainGUI extends javax.swing.JFrame {
     private PersonTableModel model;
     private final Path path = Paths.get("src/resource/standard.csv");
     private final JFileChooser fc = new JFileChooser();
+    public static String eingeloggt;
     
     /**
      * Konstruktor für Klasse MainGUI
@@ -476,6 +477,8 @@ public class MainGUI extends javax.swing.JFrame {
                 new MainGUI().setVisible(true);
             }
         });
+        
+        eingeloggt = args[0];
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

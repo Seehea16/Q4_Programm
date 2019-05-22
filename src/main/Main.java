@@ -1,12 +1,12 @@
 package main;
 
-import gui.MainGUI;
+import gui.LoginDlg;
 
 /**
  * Main-Klasse zum Starten des Programms.
  * 
  * @author Herbert Seewann
- * @version 5.0
+ * @version 6.0
  */
 public class Main {
     
@@ -16,6 +16,6 @@ public class Main {
      * @param args Übergebene Argumente
      */
     public static void main(String[] args) {
-        MainGUI.main(args);
+        LoginDlg.main(args);
     }
 }
