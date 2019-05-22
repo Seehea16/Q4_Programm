@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -14,7 +15,7 @@ import model.PersonTableModel;
  * Haupt-GUI (JFrame).
  * 
  * @author Herbert Seewann
- * @version 3.0
+ * @version 4.0
  */
 public class MainGUI extends javax.swing.JFrame {
     
@@ -34,6 +35,8 @@ public class MainGUI extends javax.swing.JFrame {
         setAllInvisible();
         model = new PersonTableModel();
         personTable.setModel(model);
+        personTable.setFillsViewportHeight(true);
+        pack();
     }
 
     /**
@@ -46,6 +49,9 @@ public class MainGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         bgFilter = new javax.swing.ButtonGroup();
+        pMenu = new javax.swing.JPopupMenu();
+        miAdd = new javax.swing.JMenuItem();
+        miDelete = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         rbAlle = new javax.swing.JRadioButton();
         cbMannschaft = new javax.swing.JCheckBox();
@@ -66,6 +72,22 @@ public class MainGUI extends javax.swing.JFrame {
         miStammbaum = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         miBeenden = new javax.swing.JMenuItem();
+
+        miAdd.setText("Hinzufügen");
+        miAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miAddActionPerformed(evt);
+            }
+        });
+        pMenu.add(miAdd);
+
+        miDelete.setText("Entfernen");
+        miDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miDeleteActionPerformed(evt);
+            }
+        });
+        pMenu.add(miDelete);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SV Hausmannstätten - Trainerprogramm");
@@ -138,6 +160,12 @@ public class MainGUI extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        personTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        personTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                personTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(personTable);
 
         getContentPane().add(jScrollPane1);
@@ -226,6 +254,7 @@ public class MainGUI extends javax.swing.JFrame {
             lbDatum.setVisible(false);
             cboxDatum.setVisible(false);
         }
+        pack();
     }//GEN-LAST:event_cbMannschaftActionPerformed
 
     /**
@@ -235,6 +264,7 @@ public class MainGUI extends javax.swing.JFrame {
      */
     private void rbAlleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbAlleActionPerformed
         model.setOnlyOneType(false);
+        pack();
     }//GEN-LAST:event_rbAlleActionPerformed
 
     /**
@@ -245,6 +275,7 @@ public class MainGUI extends javax.swing.JFrame {
     private void rbVorstandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbVorstandActionPerformed
         model.setOnlyOneType(true);
         model.setAktList('V');
+        pack();
     }//GEN-LAST:event_rbVorstandActionPerformed
 
     /**
@@ -255,6 +286,7 @@ public class MainGUI extends javax.swing.JFrame {
     private void rbTrainerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbTrainerActionPerformed
         model.setOnlyOneType(true);
         model.setAktList('T');
+        pack();
     }//GEN-LAST:event_rbTrainerActionPerformed
 
     /**
@@ -265,7 +297,47 @@ public class MainGUI extends javax.swing.JFrame {
     private void rbSpielerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbSpielerActionPerformed
         model.setOnlyOneType(true);
         model.setAktList('S');
+        pack();
     }//GEN-LAST:event_rbSpielerActionPerformed
+
+    /**
+     * Wird beim Klicken in den Table aufgerufen.
+     * 
+     * @param evt Übergebenes ActionEvent
+     */
+    private void personTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_personTableMouseClicked
+        if(evt.getButton() == MouseEvent.BUTTON3) {
+            this.pMenu.show(this, evt.getX(), evt.getYOnScreen());
+        }
+    }//GEN-LAST:event_personTableMouseClicked
+
+    /**
+     * Wird beim Klicken auf das MenuItem Add aufgerufen.
+     * 
+     * @param evt Übergebenes ActionEvent
+     */
+    private void miAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAddActionPerformed
+        AddDlg dialog = new AddDlg(this, true);
+        dialog.setVisible(true);
+        if(dialog.isIsOkay()) {
+            model.add(dialog.getNewPerson());
+        }
+    }//GEN-LAST:event_miAddActionPerformed
+
+    /**
+     * Wird beim Klicken auf das MenuItem Delete aufgerufen.
+     * 
+     * @param evt Übergebenes ActionEvent
+     */
+    private void miDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miDeleteActionPerformed
+        int selected = personTable.getSelectedRow();
+        if(selected == -1) {
+            JOptionPane.showMessageDialog(this, "Bitte eine Person auswählen!", 
+                    "Warnung", JOptionPane.WARNING_MESSAGE);
+        } else {
+            model.delete(selected);
+        }
+    }//GEN-LAST:event_miDeleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -314,11 +386,14 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JLabel lbDatum;
+    private javax.swing.JMenuItem miAdd;
     private javax.swing.JMenuItem miBeenden;
+    private javax.swing.JMenuItem miDelete;
     private javax.swing.JMenuItem miLaden;
     private javax.swing.JMenuItem miREADME;
     private javax.swing.JMenuItem miSpeichern;
     private javax.swing.JMenuItem miStammbaum;
+    private javax.swing.JPopupMenu pMenu;
     private javax.swing.JTable personTable;
     private javax.swing.JRadioButton rbAlle;
     private javax.swing.JRadioButton rbSpieler;
