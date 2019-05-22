@@ -1,10 +1,13 @@
 package data;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+
 /**
  * Abstrakte Klasse Person.
  * 
  * @author Herbert Seewann
- * @version 1.0
+ * @version 5.0
  */
 public abstract class Person {
     
@@ -65,5 +68,24 @@ public abstract class Person {
      */
     public void setAlter(int alter) {
         this.alter = alter;
+    }
+
+    /**
+     * Zum Writen der Datenklassen.
+     * 
+     * @param writer BufferedWriter
+     * @param newLine Shall a newLine be made
+     * @throws IOException
+     */
+    public void writeTo(BufferedWriter writer, boolean newLine) throws IOException {
+        if(newLine) {
+            writer.newLine();
+        }
+        writer.write(this.vorname);
+        writer.write(";");
+        writer.write(this.nachname);
+        writer.write(";");
+        writer.write(this.alter+"");
+        writer.write(";");
     }
 }

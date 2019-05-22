@@ -1,10 +1,13 @@
 package data;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+
 /**
  * Datenklasse Trainer.
  * 
  * @author Herbert Seewann
- * @version 1.0
+ * @version 5.0
  */
 public class Trainer extends Person {
     
@@ -24,6 +27,17 @@ public class Trainer extends Person {
     }
 
     /**
+     * Konstruktor der Klasse Trainer zum Loaden.
+     * 
+     * @param currentLine Aktuelle Zeile, in der der Trainer steht
+     */
+    public Trainer(String currentLine) {
+        super(currentLine.split(";")[0], currentLine.split(";")[1], 
+                Integer.parseInt(currentLine.split(";")[2]));
+        this.mannschaft = currentLine.split(";")[3];
+    }
+
+    /**
      * @return current mannschaft
      */
     public String getMannschaft() {
@@ -35,5 +49,12 @@ public class Trainer extends Person {
      */
     public void setMannschaft(String mannschaft) {
         this.mannschaft = mannschaft;
+    }
+
+    @Override
+    public void writeTo(BufferedWriter writer, boolean newLine) throws IOException {
+        super.writeTo(writer, newLine);
+        writer.write(this.mannschaft);
+        writer.write(";");
     }
 }

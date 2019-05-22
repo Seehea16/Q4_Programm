@@ -1,11 +1,19 @@
 package model;
 
+import data.CompName;
 import data.Person;
 import data.Spieler;
 import data.Trainer;
 import data.Vorstand;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
@@ -14,7 +22,7 @@ import javax.swing.table.AbstractTableModel;
  * PersonTableModel-Modelklasse für den JTable.
  * 
  * @author Herbert Seewann
- * @version 3.0
+ * @version 5.0
  */
 public class PersonTableModel extends AbstractTableModel {
     
@@ -228,12 +236,18 @@ public class PersonTableModel extends AbstractTableModel {
      */
     public void add(Person p) {
         this.list.add(p);
-        this.aktList.add(p);
+        if(!OnlyOneType) {
+            this.aktList.add(p);
+        } else {
+            if((akt == 'V' && p instanceof Vorstand) || (akt == 'T' && p instanceof Trainer) 
+                    || (akt == 'S' && p instanceof Spieler)) {
+                this.aktList.add(p);
+            }
+        }
         this.sort();
     }
     
     /**
-     * 
      * @param index Index from the person that get's deleted
      */
     public void delete(int index) {
@@ -259,7 +273,8 @@ public class PersonTableModel extends AbstractTableModel {
      * Sortiert die Listen im JTable.
      */
     public void sort() {
-        
+        Collections.sort(this.aktList, new CompName<>());
+        Collections.sort(this.list, new CompName<>());
         this.fireTableDataChanged();
     }
     
@@ -298,9 +313,122 @@ public class PersonTableModel extends AbstractTableModel {
                     if(p instanceof Spieler) {
                         aktList.add(p);
                     }
-                }   break;
+                }
         }
         this.fireTableStructureChanged();
         this.fireTableDataChanged();
+    }
+    
+    /**
+     * Speichert aktuelle Liste.
+     * 
+     * @param path Verwendeter Pfad
+     */
+    public void save(Path path) {
+        try(BufferedWriter writer = Files.newBufferedWriter(path, 
+                Charset.forName("UTF-8"))){
+            if(!OnlyOneType) {
+                for(Person p : aktList) {
+                    if(p instanceof Vorstand) {
+                        writer.write("Vorstand;");
+                        ((Vorstand) p).writeTo(writer, false);
+                        writer.newLine();
+                    } else if(p instanceof Trainer) {
+                        writer.write("Trainer;");
+                        ((Trainer) p).writeTo(writer, false);
+                        writer.newLine();
+                    } else {
+                        writer.write("Spieler;");
+                        ((Spieler) p).writeTo(writer, false);
+                        writer.newLine();
+                    }
+                }
+            } else {
+                writer.write(PersonEnum.VORNAME.getName());
+                writer.write(";");
+                writer.write(PersonEnum.NACHNAME.getName());
+                writer.write(";");
+                writer.write(PersonEnum.ALTER.getName());
+                writer.write(";");
+                switch(akt) {
+                    case 'V': writer.write(VorstandEnum.FUNKTION.getName());
+                        writer.write(";");
+                        for(Person p : aktList) {
+                            ((Vorstand) p).writeTo(writer, true);
+                        }
+                        break;
+                    case 'T': writer.write(TrainerEnum.MANNSCHAFT.getName());
+                        writer.write(";");
+                        for(Person p : aktList) {
+                            ((Trainer) p).writeTo(writer, true);
+                        }
+                        break;
+                    default: writer.write(SpielerEnum.TORESAISON.getName());
+                        writer.write(";");
+                        writer.write(SpielerEnum.TOREGESAMT.getName());
+                        writer.write(";");
+                        writer.write(SpielerEnum.TRIKOTNUMMER.getName());
+                        writer.write(";");
+                        writer.write(SpielerEnum.MANNSCHAFT.getName());
+                        writer.write(";");
+                        writer.write("Daten");
+                        writer.write(";");
+                        for(Person p : aktList) {
+                            ((Spieler) p).writeTo(writer, true);
+                        }
+                }
+            }
+        } catch(IOException ex) {
+            JOptionPane.showMessageDialog(null, "Datei konnet nicht gespeichert "
+                    + "werden!", "Fehler", JOptionPane.ERROR_MESSAGE);
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    /**
+     * Ladet aktuelle Liste.
+     * 
+     * @param path Verwendeter Pfad
+     */
+    public void load(Path path) {
+        this.clear();
+        try(BufferedReader reader = Files.newBufferedReader(path, 
+                Charset.forName("UTF-8"))) {
+            String currentLine = reader.readLine();
+            switch (currentLine.split(";")[3]) {
+                case "Funktion":
+                    while((currentLine = reader.readLine()) != null) {
+                        this.add(new Vorstand(currentLine));
+                    }   break;
+                case "Mannschaft":
+                    while((currentLine = reader.readLine()) != null) {
+                        this.add(new Trainer(currentLine));
+                    }   break;
+                case "Tore | Saison":
+                    while((currentLine = reader.readLine()) != null) {
+                        this.add(new Spieler(currentLine));
+                    }   break;
+                default:
+                    switch(currentLine.split(";")[0]) {
+                        case "Vorstand": this.add(new Vorstand(currentLine.substring(currentLine.indexOf(";")+1)));
+                        break;
+                        case "Trainer": this.add(new Trainer(currentLine.substring(currentLine.indexOf(";")+1)));
+                        break;
+                        default: this.add(new Spieler(currentLine.substring(currentLine.indexOf(";")+1)));
+                    }   while((currentLine = reader.readLine()) != null) {
+                        switch(currentLine.split(";")[0]) {
+                            case "Vorstand": this.add(new Vorstand(currentLine.substring(currentLine.indexOf(";")+1)));
+                            break;
+                            case "Trainer": this.add(new Trainer(currentLine.substring(currentLine.indexOf(";")+1)));
+                            break;
+                            default: this.add(new Spieler(currentLine.substring(currentLine.indexOf(";")+1)));
+                        }
+                    }   break;
+            }
+        } catch(Exception ex) {
+            JOptionPane.showMessageDialog(null, "Datei konnte nicht geladen "
+                    + "werden!", "Fehler", JOptionPane.ERROR_MESSAGE);
+            System.out.println(ex.getMessage());
+        }
     }
 }
