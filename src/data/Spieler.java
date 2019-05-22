@@ -8,7 +8,7 @@ import java.util.List;
  * Datenklasse Spieler.
  * 
  * @author Herbert Seewann
- * @version 3.0
+ * @version 4.0
  */
 public class Spieler extends Person {
     
@@ -32,9 +32,9 @@ public class Spieler extends Person {
     public Spieler(String vorname, String nachname, int alter, int toreSaison, 
             int toreGesamt, int trikotNummer, String mannschaft) {
         super(vorname, nachname, alter);
-        this.toreSaison = toreSaison;
-        this.toreGesamt = toreGesamt;
-        this.trikotNummer = trikotNummer;
+        this.setToreSaison(toreSaison);
+        this.setToreGesamt(toreGesamt);
+        this.setTrikotNummer(trikotNummer);
         this.mannschaft = mannschaft;
         this.trainings = new LinkedList<>();
     }
