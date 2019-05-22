@@ -81,8 +81,11 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="miStammbaum">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Grafischen &quot;Stammbaum&quot; anzeigen"/>
+                <Property name="text" type="java.lang.String" value="Grafischen &quot;Stammbaum&quot; anzeigen //TODO"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="miStammbaumActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
             </MenuItem>

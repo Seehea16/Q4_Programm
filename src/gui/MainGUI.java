@@ -1,6 +1,7 @@
 package gui;
 
 import data.CSVFilter;
+import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,6 +10,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
@@ -19,13 +21,14 @@ import model.PersonTableModel;
  * Haupt-GUI (JFrame).
  * 
  * @author Herbert Seewann
- * @version 5.0
+ * @version 6.0
  */
 public class MainGUI extends javax.swing.JFrame {
     
     private PersonTableModel model;
     private final Path path = Paths.get("src/resource/standard.csv");
     private final JFileChooser fc = new JFileChooser();
+    public static String eingeloggt;
     
     /**
      * Konstruktor für Klasse MainGUI
@@ -227,7 +230,12 @@ public class MainGUI extends javax.swing.JFrame {
         jMenu2.add(miREADME);
         jMenu2.add(jSeparator1);
 
-        miStammbaum.setText("Grafischen \"Stammbaum\" anzeigen");
+        miStammbaum.setText("Grafischen \"Stammbaum\" anzeigen //TODO");
+        miStammbaum.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miStammbaumActionPerformed(evt);
+            }
+        });
         jMenu2.add(miStammbaum);
         jMenu2.add(jSeparator2);
 
@@ -424,6 +432,19 @@ public class MainGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     /**
+     * Wird beim Klicken auf das MenuItem Stammbaum anzeigen aufgerufen.
+     * 
+     * @param evt Übergebenes ActionEvent
+     */
+    private void miStammbaumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miStammbaumActionPerformed
+        JDialog g = new JDialog(this, true);
+        g.setTitle("Grafischer Stammbaum");
+        g.setSize(new Dimension(500, 500));
+        g.add(new DrawPanel());
+        g.setVisible(true);
+    }//GEN-LAST:event_miStammbaumActionPerformed
+
+    /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -456,6 +477,8 @@ public class MainGUI extends javax.swing.JFrame {
                 new MainGUI().setVisible(true);
             }
         });
+        
+        eingeloggt = args[0];
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
