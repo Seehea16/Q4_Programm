@@ -8,12 +8,13 @@ import java.util.List;
  * Datenklasse Spieler.
  * 
  * @author Herbert Seewann
- * @version 1.0
+ * @version 3.0
  */
 public class Spieler extends Person {
     
     private int toreSaison;
     private int toreGesamt;
+    private int trikotNummer;
     private String mannschaft;
     private List<LocalDate> trainings;
     
@@ -25,12 +26,15 @@ public class Spieler extends Person {
      * @param alter alter to set
      * @param toreSaison toreSaison to set
      * @param toreGesamt toreGesamt to set
+     * @param trikotNummer trikoNummer to set
      * @param mannschaft mannschaft to set
      */
-    public Spieler(String vorname, String nachname, int alter, int toreSaison, int toreGesamt, String mannschaft) {
+    public Spieler(String vorname, String nachname, int alter, int toreSaison, 
+            int toreGesamt, int trikotNummer, String mannschaft) {
         super(vorname, nachname, alter);
         this.toreSaison = toreSaison;
         this.toreGesamt = toreGesamt;
+        this.trikotNummer = trikotNummer;
         this.mannschaft = mannschaft;
         this.trainings = new LinkedList<>();
     }
@@ -47,6 +51,9 @@ public class Spieler extends Person {
      */
     public void setToreSaison(int toreSaison) {
         this.toreSaison = toreSaison;
+        if(toreSaison > toreGesamt) {
+            toreGesamt = toreSaison;
+        }
     }
 
     /**
@@ -61,6 +68,9 @@ public class Spieler extends Person {
      */
     public void setToreGesamt(int toreGesamt) {
         this.toreGesamt = toreGesamt;
+        if(toreGesamt < toreSaison) {
+            toreSaison = toreGesamt;
+        }
     }
 
     /**
@@ -103,5 +113,19 @@ public class Spieler extends Person {
      */
     public void setMannschaft(String mannschaft) {
         this.mannschaft = mannschaft;
+    }
+    
+    /**
+     * @return current trikotNummer
+     */
+    public int getTrikotNummer() {
+        return trikotNummer;
+    }
+    
+    /**
+     * @param trikotNummer trikotNummer to set
+     */
+    public void setTrikotNummer(int trikotNummer) {
+        this.trikotNummer = trikotNummer;
     }
 }
