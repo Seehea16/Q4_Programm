@@ -5,8 +5,8 @@ import gui.MainGUI;
 /**
  * Main-Klasse zum Starten des Programms.
  * 
- * @author herbe
- * @version 2.0
+ * @author Herbert Seewann
+ * @version 3.0
  */
 public class Main {
     

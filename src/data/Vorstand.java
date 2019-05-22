@@ -4,7 +4,7 @@ package data;
  * Datenklasse Vorstand.
  * 
  * @author Herbert Seewann
- * @version 1.0
+ * @version 3.0
  */
 public class Vorstand extends Person {
     
@@ -18,7 +18,7 @@ public class Vorstand extends Person {
      * @param nachname nachname to set
      * @param alter alter to set
      */
-    public Vorstand(String funktion, String vorname, String nachname, int alter) {
+    public Vorstand(String vorname, String nachname, int alter, String funktion) {
         super(vorname, nachname, alter);
         this.funktion = funktion;
     }

@@ -8,15 +8,18 @@ import java.nio.file.Paths;
 import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import model.PersonTableModel;
 
 /**
  * Haupt-GUI (JFrame).
  * 
  * @author Herbert Seewann
- * @version 2.0
+ * @version 3.0
  */
 public class MainGUI extends javax.swing.JFrame {
-
+    
+    private PersonTableModel model;
+    
     /**
      * Konstruktor für Klasse MainGUI
      */
@@ -29,6 +32,8 @@ public class MainGUI extends javax.swing.JFrame {
             }
         });
         setAllInvisible();
+        model = new PersonTableModel();
+        personTable.setModel(model);
     }
 
     /**
@@ -72,6 +77,11 @@ public class MainGUI extends javax.swing.JFrame {
         bgFilter.add(rbAlle);
         rbAlle.setSelected(true);
         rbAlle.setText("Alle");
+        rbAlle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbAlleActionPerformed(evt);
+            }
+        });
         jPanel1.add(rbAlle);
 
         cbMannschaft.setText("Mannschaft");
@@ -84,6 +94,11 @@ public class MainGUI extends javax.swing.JFrame {
 
         bgFilter.add(rbVorstand);
         rbVorstand.setText("Vorstand");
+        rbVorstand.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbVorstandActionPerformed(evt);
+            }
+        });
         jPanel1.add(rbVorstand);
 
         lbDatum.setText("Trainingsdatum:");
@@ -91,6 +106,11 @@ public class MainGUI extends javax.swing.JFrame {
 
         bgFilter.add(rbTrainer);
         rbTrainer.setText("Trainer");
+        rbTrainer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbTrainerActionPerformed(evt);
+            }
+        });
         jPanel1.add(rbTrainer);
 
         cboxDatum.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -98,6 +118,11 @@ public class MainGUI extends javax.swing.JFrame {
 
         bgFilter.add(rbSpieler);
         rbSpieler.setText("Spieler");
+        rbSpieler.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbSpielerActionPerformed(evt);
+            }
+        });
         jPanel1.add(rbSpieler);
 
         getContentPane().add(jPanel1);
@@ -120,11 +145,9 @@ public class MainGUI extends javax.swing.JFrame {
         jMenu1.setText("Datei");
 
         miSpeichern.setText("Speichern");
-        miSpeichern.setActionCommand("Speichern");
         jMenu1.add(miSpeichern);
 
         miLaden.setText("Laden");
-        miLaden.setActionCommand("Laden");
         jMenu1.add(miLaden);
 
         jMenuBar1.add(jMenu1);
@@ -206,6 +229,45 @@ public class MainGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_cbMannschaftActionPerformed
 
     /**
+     * Wird beim Klicken des RadioButtons Alle aufgerufen.
+     * 
+     * @param evt Übergebenes ActionEvent
+     */
+    private void rbAlleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbAlleActionPerformed
+        model.setOnlyOneType(false);
+    }//GEN-LAST:event_rbAlleActionPerformed
+
+    /**
+     * Wird beim Klicken des RadioButtons Vorstand aufgerufen.
+     * 
+     * @param evt Übergebenes ActionEvent
+     */
+    private void rbVorstandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbVorstandActionPerformed
+        model.setOnlyOneType(true);
+        model.setAktList('V');
+    }//GEN-LAST:event_rbVorstandActionPerformed
+
+    /**
+     * Wird beim Klicken des RadioButtons Trainer aufgerufen.
+     * 
+     * @param evt Übergebenes ActionEvent
+     */
+    private void rbTrainerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbTrainerActionPerformed
+        model.setOnlyOneType(true);
+        model.setAktList('T');
+    }//GEN-LAST:event_rbTrainerActionPerformed
+
+    /**
+     * Wird beim Klicken des RadioButtons Spieler aufgerufen.
+     * 
+     * @param evt Übergebenes ActionEvent
+     */
+    private void rbSpielerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbSpielerActionPerformed
+        model.setOnlyOneType(true);
+        model.setAktList('S');
+    }//GEN-LAST:event_rbSpielerActionPerformed
+
+    /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -249,8 +311,8 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JLabel lbDatum;
     private javax.swing.JMenuItem miBeenden;
     private javax.swing.JMenuItem miLaden;
