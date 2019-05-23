@@ -11,7 +11,7 @@ import java.util.List;
  * Datenklasse Spieler.
  * 
  * @author Herbert Seewann
- * @version 5.0
+ * @version 7.0
  */
 public class Spieler extends Person {
     
@@ -20,7 +20,7 @@ public class Spieler extends Person {
     private int trikotNummer;
     private String mannschaft;
     private List<LocalDate> trainings;
-    public static final DateTimeFormatter DTF = DateTimeFormatter.ofPattern("DD.MM.yyyy");
+    public static final DateTimeFormatter DTF = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     
     /**
      * Konstruktor für Klasse Spieler.

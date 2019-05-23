@@ -5,9 +5,9 @@ import java.util.Comparator;
 /**
  * CompName-Comparator für das Sortieren des Tables.
  * 
- * @author herbe
+ * @author Herbert Seewann
  * @param <T>
- * @version 5.0
+ * @version 7.0
  */
 public class CompName<T> implements Comparator<Person> {
 

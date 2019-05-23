@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
  * JDialog LoginDlg.
  * 
  * @author Herbert Seewann
- * @version 6.0
+ * @version 7.0
  */
 public class LoginDlg extends javax.swing.JDialog {
     
@@ -108,7 +108,7 @@ public class LoginDlg extends javax.swing.JDialog {
                 String passwortDB = dba.findPasswordByUsername(username);
                 if(passwortDB.equals(tfPassword.getText())) {
                     this.dispose();
-                    String[] arr = new String[]{dba.getArt(tfUsername.getText(), tfPassword.getText())};
+                    String[] arr = new String[]{dba.getArt(tfUsername.getText(), tfPassword.getText()), tfUsername.getText()};
                     MainGUI.main(arr);
                     
                 } else {
