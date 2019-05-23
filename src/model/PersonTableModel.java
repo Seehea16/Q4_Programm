@@ -22,7 +22,7 @@ import javax.swing.table.AbstractTableModel;
  * PersonTableModel-Modelklasse für den JTable.
  * 
  * @author Herbert Seewann
- * @version 5.0
+ * @version 7.0
  */
 public class PersonTableModel extends AbstractTableModel {
     
@@ -31,6 +31,7 @@ public class PersonTableModel extends AbstractTableModel {
     private boolean OnlyOneType = false;
     private LocalDate selectedTraining = LocalDate.now();
     private char akt;
+    private boolean mannschaftFilter = false;
     
     @Override
     public int getRowCount() {
@@ -46,7 +47,10 @@ public class PersonTableModel extends AbstractTableModel {
                 case 'T':
                     return TrainerEnum.values().length;
                 default:
-                    return SpielerEnum.values().length;
+                    if(mannschaftFilter) {
+                        return SpielerEnum.values().length;
+                    }
+                    return SpielerEnumNoTraining.values().length;
             }
         } else {
             return PersonEnum.values().length;
@@ -199,7 +203,10 @@ public class PersonTableModel extends AbstractTableModel {
                 case 'T':
                     return TrainerEnum.values()[columnIndex].getName();
                 default:
-                    return SpielerEnum.values()[columnIndex].getName();
+                    if(mannschaftFilter) {
+                        return SpielerEnum.values()[columnIndex].getName();
+                    }
+                    return SpielerEnumNoTraining.values()[columnIndex].getName();
             }
         } else {
             return PersonEnum.values()[columnIndex].getName();
@@ -430,5 +437,48 @@ public class PersonTableModel extends AbstractTableModel {
                     + "werden!", "Fehler", JOptionPane.ERROR_MESSAGE);
             System.out.println(ex.getMessage());
         }
+    }
+    
+    /**
+     * Schaut, ob dieser Name ein Trainer ist.
+     * 
+     * @param username - Name to search for
+     * @return 
+     */
+    public String getMannschaftFromTrainer(String username) {
+        try {
+            String vorname = username.split(" ")[0];
+            String nachname = username.split(" ")[1];
+            for(Person p : list) {
+                if(p instanceof Trainer) {
+                    Trainer t = (Trainer) p;
+                    if(t.getVorname().equals(vorname) && t.getNachname().equals(nachname)) {
+                        return t.getMannschaft();
+                    }
+                }
+            }
+            throw new Exception();
+        } catch(Exception ex) {
+            return "";
+        }
+    }
+
+    public void setMannschaftFilter(boolean mannschaftFilter) {
+        this.mannschaftFilter = mannschaftFilter;
+    }
+
+    public void setAktList(String mannschaft) {
+       aktList.clear();
+       for(Person p : list) {
+           if(p instanceof Spieler) {
+               if(((Spieler) p).getMannschaft().equals(mannschaft)) {
+                aktList.add(p);
+            }
+           }
+       }
+    }
+
+    public List<Person> getAktList() {
+        return aktList;
     }
 }

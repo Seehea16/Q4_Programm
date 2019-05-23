@@ -1,6 +1,9 @@
 package gui;
 
 import data.CSVFilter;
+import data.DateComp;
+import data.Person;
+import data.Spieler;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
@@ -10,6 +13,10 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -21,14 +28,17 @@ import model.PersonTableModel;
  * Haupt-GUI (JFrame).
  * 
  * @author Herbert Seewann
- * @version 6.0
+ * @version 7.0
  */
 public class MainGUI extends javax.swing.JFrame {
     
     private PersonTableModel model;
     private final Path path = Paths.get("src/resource/standard.csv");
     private final JFileChooser fc = new JFileChooser();
-    public static String eingeloggt;
+    public static String art;
+    public static String username;
+    public String mannschaft;
+    private String selected = LocalDate.now().format(Spieler.DTF);
     
     /**
      * Konstruktor für Klasse MainGUI
@@ -163,7 +173,11 @@ public class MainGUI extends javax.swing.JFrame {
         });
         jPanel1.add(rbTrainer);
 
-        cboxDatum.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboxDatum.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboxDatumActionPerformed(evt);
+            }
+        });
         jPanel1.add(cboxDatum);
 
         bgFilter.add(rbSpieler);
@@ -293,10 +307,32 @@ public class MainGUI extends javax.swing.JFrame {
         if(cbMannschaft.isSelected()) {
             lbDatum.setVisible(true);
             cboxDatum.setVisible(true);
+            model.setMannschaftFilter(true);
+            model.setAktList(mannschaft);
+            List<Person> personList = model.getAktList();
+            List<LocalDate> fertig = new ArrayList<>();
+            for(Person p : personList) {
+                List<LocalDate> dateList = ((Spieler) p).getTrainings();
+                for(LocalDate l : dateList) {
+                    if(!fertig.contains(l)) {
+                        fertig.add(l);
+                    }
+                }
+            }
+            Collections.sort(fertig, new DateComp());
+            cboxDatum.removeAllItems();
+            cboxDatum.addItem(Spieler.DTF.format(LocalDate.now()));
+            for(LocalDate ld : fertig) {
+                cboxDatum.addItem(Spieler.DTF.format(ld));
+            }
         } else {
             lbDatum.setVisible(false);
             cboxDatum.setVisible(false);
+            model.setMannschaftFilter(false);
+            model.setAktList('S');
         }
+        model.fireTableStructureChanged();
+        model.fireTableDataChanged();
         pack();
     }//GEN-LAST:event_cbMannschaftActionPerformed
 
@@ -316,6 +352,7 @@ public class MainGUI extends javax.swing.JFrame {
      * @param evt Übergebenes ActionEvent
      */
     private void rbVorstandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbVorstandActionPerformed
+        cbMannschaftActionPerformed(evt);
         model.setOnlyOneType(true);
         model.setAktList('V');
         pack();
@@ -327,6 +364,7 @@ public class MainGUI extends javax.swing.JFrame {
      * @param evt Übergebenes ActionEvent
      */
     private void rbTrainerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbTrainerActionPerformed
+        cbMannschaftActionPerformed(evt);
         model.setOnlyOneType(true);
         model.setAktList('T');
         pack();
@@ -388,7 +426,17 @@ public class MainGUI extends javax.swing.JFrame {
      * @param evt Übergebenes ActionEvent
      */
     private void miAnwesenheitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miAnwesenheitActionPerformed
-        
+        int selected = personTable.getSelectedRow();
+        if(selected == -1) {
+            JOptionPane.showMessageDialog(this, "Bitte eine Person auswählen!", 
+                    "Warnung", JOptionPane.WARNING_MESSAGE);
+        } else {
+            if(((Spieler) model.getAktList().get(selected)).getTrainings().contains(LocalDate.parse(this.selected, Spieler.DTF))) {
+                ((Spieler) model.getAktList().get(selected)).getTrainings().remove(LocalDate.parse(this.selected, Spieler.DTF));
+            } else {
+              ((Spieler) model.getAktList().get(selected)).getTrainings().add(LocalDate.parse(this.selected, Spieler.DTF));
+            }
+        }
     }//GEN-LAST:event_miAnwesenheitActionPerformed
 
     /**
@@ -444,6 +492,11 @@ public class MainGUI extends javax.swing.JFrame {
         g.setVisible(true);
     }//GEN-LAST:event_miStammbaumActionPerformed
 
+    private void cboxDatumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxDatumActionPerformed
+        selected = cboxDatum.getSelectedItem()+"";
+        model.setSelectedTraining(LocalDate.now());
+    }//GEN-LAST:event_cboxDatumActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -478,7 +531,8 @@ public class MainGUI extends javax.swing.JFrame {
             }
         });
         
-        eingeloggt = args[0];
+        art = args[0];
+        username = args[1];
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -525,7 +579,10 @@ public class MainGUI extends javax.swing.JFrame {
      */
     private void onRbSpieler() {
         if(rbSpieler.isSelected()) {
-            cbMannschaft.setVisible(true);
+            if(art.equals("Trainer") && !model.getMannschaftFromTrainer(username).equals("")) {
+                cbMannschaft.setVisible(true);
+                mannschaft = model.getMannschaftFromTrainer(username);
+            }
         } else {
             setAllInvisible();
         }
