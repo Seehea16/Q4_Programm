@@ -117,7 +117,7 @@ public class PersonTableModel extends AbstractTableModel {
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        Person pAlt = this.list.get(rowIndex);
+        Person pAlt = this.aktList.get(rowIndex);
         
         String vornameAlt = pAlt.getVorname();
         String nachnameAlt = pAlt.getNachname();
@@ -480,5 +480,14 @@ public class PersonTableModel extends AbstractTableModel {
 
     public List<Person> getAktList() {
         return aktList;
+    }
+
+    public void changeAnwesenheit(int selected) {
+        if(((Spieler) aktList.get(selected)).getTrainings().contains(selectedTraining)) {
+            ((Spieler) aktList.get(selected)).getTrainings().remove(selectedTraining);
+        } else {
+          ((Spieler) aktList.get(selected)).getTrainings().add(selectedTraining);
+        }
+        this.fireTableDataChanged();
     }
 }

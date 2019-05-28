@@ -1,0 +1,137 @@
+commit 93e49be8f23ef3631478771b3f4c0e8efff4a3fb
+Author: Herbert Seewann <seehea16@htl-kaindorf.ac.at>
+Date:   Thu May 23 14:37:20 2019 +0200
+
+    CompName v7.0
+    DateComp v7.0
+    Spieler v7.0
+    LoginDlg v7.0
+    MainGUI v7.0
+    PersonTableModel v7.0
+    SpielerEnumNoTraining v7.0
+    PasswordFindTest v7.0
+
+commit 9157eff14323ca6ed810a1f04901ff81bbde6819
+Merge: f7a6784 bc5eb4c
+Author: Seehea16 <44263541+Seehea16@users.noreply.github.com>
+Date:   Thu May 23 01:54:14 2019 +0200
+
+    Merge pull request #6 from Seehea16/Sprint_6
+    
+    Sprint 6
+
+commit bc5eb4cf9b99564100c4fcb88878f9badb2bf36f
+Author: Herbert Seewann <seehea16@htl-kaindorf.ac.at>
+Date:   Thu May 23 01:53:12 2019 +0200
+
+    LoginPerson v6.0
+    DBLoginAccess v6.0
+    DBManagerLogin v6.0
+    DBPropertiesManagerLogin v6.0
+    derby.dblogin.properties v6.0
+    LoginDlg v6.0
+    MainGUI v6.0
+    RegisterDlg v6.0
+    Main v6.0
+    LoginSQL v6.0
+    benutzer.sql v6.0
+
+commit 91e018b35688912e608640ed073ed809695d88c5
+Author: Herbert Seewann <seehea16@htl-kaindorf.ac.at>
+Date:   Wed May 22 21:55:47 2019 +0200
+
+    DrawPanel v6.0
+    MainGUI v6.0
+
+commit f7a6784807fb64aff7ae6d944aeb8a8749f6c69c
+Merge: 0b2befd dd7a570
+Author: Seehea16 <44263541+Seehea16@users.noreply.github.com>
+Date:   Wed May 22 20:38:02 2019 +0200
+
+    Merge pull request #5 from Seehea16/Sprint_5
+    
+    Sprint 5
+
+commit dd7a570366b736ed043197a04ceee23235defe35
+Author: Herbert Seewann <seehea16@htl-kaindorf.ac.at>
+Date:   Wed May 22 20:37:01 2019 +0200
+
+    CSVFilter v5.0
+    CompName v5.0
+    Person v5.0
+    Spieler v5.0
+    Trainer v5.0
+    Vorstand v5.0
+    MainGUI v5.0
+    Main v5.0
+    PersonTableModel v5.0
+
+commit 0b2befd16981dd0cf18cfbe2bdd2a4215510af4e
+Merge: 97e9770 7c79845
+Author: Seehea16 <44263541+Seehea16@users.noreply.github.com>
+Date:   Wed May 22 09:55:50 2019 +0200
+
+    Merge pull request #4 from Seehea16/Sprint_4
+    
+    Sprint 4
+
+commit 7c79845c88879a291923656b82f749840845ae09
+Author: Herbert Seewann <seehea16@htl-kaindorf.ac.at>
+Date:   Wed May 22 09:54:24 2019 +0200
+
+    AddDlg v4.0
+    Spieler v4.0
+    MainGUI v4.0
+
+commit 97e97702ad14f260c229a9400334f51089359a57
+Merge: b41c39e 80b65b1
+Author: Seehea16 <44263541+Seehea16@users.noreply.github.com>
+Date:   Wed May 22 03:29:43 2019 +0200
+
+    Merge pull request #3 from Seehea16/Sprint_3
+    
+    Sprint 3
+
+commit 80b65b1cff580b88147de8d3275768ba502abe24
+Author: Herbert Seewann <seehea16@htl-kaindorf.ac.at>
+Date:   Wed May 22 03:28:46 2019 +0200
+
+    PersonTableModel v3.0
+    ENUMs v3.0
+
+commit b41c39e7ec8570c79edc155d23abf2ccd787bedd
+Merge: 0729876 aabc56d
+Author: Seehea16 <44263541+Seehea16@users.noreply.github.com>
+Date:   Wed May 22 00:36:58 2019 +0200
+
+    Merge pull request #2 from Seehea16/Sprint_2
+    
+    Sprint 2
+
+commit aabc56d063cd545f5ce8e3c06459d60896bbb6eb
+Author: Herbert Seewann <seehea16@htl-kaindorf.ac.at>
+Date:   Wed May 22 00:35:57 2019 +0200
+
+    Framework für GUI v2.0
+    README-Datei aufrufen v2.0
+
+commit 07298767848ccd8f645071bd163ff11221bd9ba6
+Merge: d3c1126 817610a
+Author: Seehea16 <44263541+Seehea16@users.noreply.github.com>
+Date:   Tue May 21 22:17:26 2019 +0200
+
+    Merge pull request #1 from Seehea16/Sprint_1
+    
+    Sprint 1
+
+commit 817610a62167e9063d9686eed8987985f9dd1b15
+Author: Herbert Seewann <seehea16@htl-kaindorf.ac.at>
+Date:   Tue May 21 21:44:11 2019 +0200
+
+    Framework für Datenklassen v1.0
+
+commit d3c1126def953283dadee70aa3c0bbfcd78909e4
+Author: Herbert Seewann <seehea16@htl-kaindorf.ac.at>
+Date:   Tue May 21 17:55:02 2019 +0200
+
+    Programm erstellt
